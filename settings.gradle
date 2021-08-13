@@ -1,0 +1,23 @@
+pluginManagement {
+    repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/gradle-plugin'
+        }
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'cgg-root'
+
+include 'cgg-app-bookkeeping'
+include 'cgg-framework'
+include 'cgg-service-account'
+include 'cgg-service-baseconfig'
+include 'cgg-service-content'
+include 'cgg-service-express'
+include 'cgg-service-goods'
+include 'cgg-service-order'
+include 'cgg-service-pay'
+include 'cgg-service-sms'
+include 'cgg-service-user'
+

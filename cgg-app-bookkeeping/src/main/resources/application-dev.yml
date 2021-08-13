@@ -1,0 +1,48 @@
+springdoc:
+  api-docs:
+    enabled: true
+logging:
+  config: classpath:logback-console.xml
+  level:
+    root: info
+oss:
+  ossaddress: 10.129.40.2:7080  #OSS服务器地址
+  accessKeyId: 9z3e2PjovUT2ts54  #ID
+  accessKeySecret: g8knLrURFttmbuI1VsJG43x3yCKveW   #密码
+  bucketName: whxjg01 #bucket名称 --》跟服务器地址拼在一起就是你的访问地址
+  ossImageUrl: https://s1-test.cmread.com:8443/uploadservice/
+jwt:
+  key-id: cgg
+  private-key: '{"kty":"RSA","kid":"cgg","alg":"RS256","n":"hP9pPbKTaGE63G_hNuSAlxq9uExF39_qQBcLS5K2jvpDBpEsCqcjHv2PGNBVjeX6EEmxeA36gofXIBP0jS_ETI3uelSvxY35dtDVDeta9D9DPPrhPR1R0Vqz8hOIviGr37koysp9tAHsaMoa2vwtUzwQGELEOLQfpO-R9zMGa6CSGDP3Z4JWlOhNto5Ckos9impAoIGu0FUyzUAI3YK1VV0oSL001ZeyLd0TWJFTIrV6glGsii1ahAiTFqmX5rbHw1tQQt-Jt1RHxS0L69rQczBUQV0vEyotePmi1y8vMGRDzTJTJHsmt2ZGnslto0IcbX_FXQVNSXhvhcxUfwI-_w","e":"AQAB","d":"BcYEro37AjP-VyVwNG7U-jpJ9B8zhVV2GNQnRF-ZFzncAQP6UngQ-T5uoNgibqeGJIDeeGS69EGrYBQdsKdbMSuUJ7FXdA8GvlaweQs3hpTceWA2uO116M20NBUPAZn6mRqzn6IMtOzEc4QaiFkcKpnX5QW4-PEw0nsn7gBEDhX5P9mSoYPe44Xo-CYAhs7I9PjK2ZahHAcszPOrOeGff8_t42M2MQQJKvqBdBpwn0YwkQV1nB-jq3E6iuVzeg4jlUXOILmifuT3tWTY6A7cU_ZfmDFxEa87tZbPxxQ8ffdG6AwNng8VBg5MwyxjZAc_8ETH2BuI6H28mJGAh2UhMQ","p":"z5twznCRRbEsk9vyXl12dW063_KI_9n6z-qBGWa4im2k-8T_Oj6vcJX7uE-EE_oICytno9xU_Drk83u6G2o9_HbyedRKeFW6Ij4FPzCo3N947ZyTlg3WfX26fJ8sDWnRuwVVs0gY3q87-GyeBc67uxCda8AqjzYW7fDhYCOD9qk","q":"o__K8fo5005hbedMjmGYLV25m1BYuM0dktW_AmabQKRItm3eDOzo9aWWRXmKE7kdv1Cc88At3sX0ND60PohiVMEr-TUa2hWdgvy2ZRR6iFV5tn9C9d8Ooq4VuXCcJAHNNt4XUrxgkHSQob8_mdKq6ooUo9u30_Bo4HxYASTnmWc","dp":"T7lCbZRexSOPmcw527EKf3eNx1gs8gt0PImyP93pegc29xQkauqNlq-R9apbbwxyME_fwdYnsKCxMStPQZ3f5eaLoOs8Gc_Z5bJpc2WtQvxyRNT--_2eY5x3k8nQMep0Bty6l1lVa5ZhcjnLyTEleGWd_jXSYiKEVaVN9wxMbdk","dq":"ftlEHURBY9q1a2_DfEGqljRvct2DsnUc0c04b9_zZ91qTIjQfsjkK9THVbd7gGPnyWnN7I-SK0SL7bkua0vMWugLXjegLF0Ztw5G-goL-NW8TddDcK_2PwhNz2B1tTgbhbvk6F7ChhlTIXiu9gjHoJ_q9Q7msiy6wiALZd8osDM","qi":"B25D86V2MAEnn2d7PXfchHOjNJZEMHXqEol5q4FiM4eqc6vzNLrJz9_bhqD_tCYCYGEhg-0-eIFcuSM9BQoHzl2z66OZfcqnJSGlLKNn27olm7ZyAbzFTkUZT5gTYBIvOSdgYIvTm7yWq4T08-de0c5VdSfuPAB7cbVlTW6xMWk"}'
+  public-key: '{"kty":"RSA","kid":"cgg","alg":"RS256","n":"hP9pPbKTaGE63G_hNuSAlxq9uExF39_qQBcLS5K2jvpDBpEsCqcjHv2PGNBVjeX6EEmxeA36gofXIBP0jS_ETI3uelSvxY35dtDVDeta9D9DPPrhPR1R0Vqz8hOIviGr37koysp9tAHsaMoa2vwtUzwQGELEOLQfpO-R9zMGa6CSGDP3Z4JWlOhNto5Ckos9impAoIGu0FUyzUAI3YK1VV0oSL001ZeyLd0TWJFTIrV6glGsii1ahAiTFqmX5rbHw1tQQt-Jt1RHxS0L69rQczBUQV0vEyotePmi1y8vMGRDzTJTJHsmt2ZGnslto0IcbX_FXQVNSXhvhcxUfwI-_w","e":"AQAB"}'
+wechat:
+  login:
+    app-id: wxcc3ca96632923886
+    app-secret: 2ca38822d5180126b7d9738bb64ba2cb
+    callback-url: https://api.zhaopen.top/callback
+spring:
+  r2dbc:
+    url: r2dbcs:mysql://47.117.124.50:3306/cgg-bookkeeping?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: Wanwusheng20210217@#$
+    pool:
+      enabled: true
+      initial-size: 1
+      max-size: 2
+      max-acquire-time: 3000
+      max-create-connection-time: 3000
+      max-idle-time: 180000
+      max-life-time: 1800000
+      validation-query: SELECT 1
+  redis:
+    host: localhost
+    port: 6379
+    database: 15
+    timeout: 5000 #客户端超时时间单位是毫秒 默认是2000
+    lettuce:
+      pool:
+        max-active: 2  #连接池最大连接数（使用负值表示没有限制）
+        max-idle: 2 # 连接池中的最大空闲连接
+        min-idle: 1 # 连接池中的最小空闲连接
+        max-wait: 5000 # 连接池最大阻塞等待时间（使用负值表示没有限制）
+

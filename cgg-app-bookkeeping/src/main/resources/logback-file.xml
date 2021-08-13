@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+	<contextName>iread</contextName>
+	<property name="log.charset" value="utf-8" />
+	<property name="log.pattern"
+			  value="%d{yyyy-MM-dd HH:mm:ss} %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %msg%n"
+	/>
+
+	<!-- 定义一个属性, 下面用 -->
+	<property name="LOG_FILE_NAME" value="${HOME}/logs/cgg-bookkeeping" />
+	<!-- 输出格式 appender -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE_NAME}.log</file>  <!-- 可自己定义 -->
+		<filter class="com.migu.iread.common.log.InfoLoggerFilter" />
+		<encoder>
+			<pattern>${log.pattern}</pattern> <!-- 输出格式也可自己定义 -->
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
+			<maxFileSize>1024MB</maxFileSize>
+			<maxHistory>10</maxHistory>
+			<totalSizeCap>10GB</totalSizeCap>
+		</rollingPolicy>
+	</appender>
+
+	<!-- error 日志 appender -->
+	<appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE_NAME}_error.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE_NAME}_error.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+
+	<!-- 输出格式 appender -->
+	<appender name="ACCESSLOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE_NAME}_access.log</file>  <!-- 可自己定义 -->
+		<encoder>
+			<pattern>${log.pattern}</pattern> <!-- 输出格式也可自己定义 -->
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE_NAME}_access.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
+			<maxFileSize>1024MB</maxFileSize>
+			<maxHistory>10</maxHistory>
+			<totalSizeCap>10GB</totalSizeCap>
+		</rollingPolicy>
+	</appender>
+
+	<logger name="reactor.netty.http.server.AccessLog" level="INFO">
+		<appender-ref ref="ACCESSLOG_FILE" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="ERROR_FILE" />
+	</root>
+
+</configuration>

@@ -1,0 +1,20 @@
+ext {
+    set('commonLang3Version', '3.12.0')
+    set('commonCollections4Version', '4.4')
+    set('guavaVersion', '29.0-jre')
+    set('redissonVersion', '3.16.1')
+    set('ossVersion','2.8.1')
+    set('captchaVersion','2.3.2')
+}
+
+dependencies {
+    apiElements("org.apache.commons:commons-lang3:${commonLang3Version}")
+    apiElements("org.apache.commons:commons-collections4:${commonCollections4Version}")
+    apiElements("com.google.guava:guava:${guavaVersion}")
+    implementation("org.apache.commons:commons-lang3:${commonLang3Version}")
+    implementation("org.apache.commons:commons-collections4:${commonCollections4Version}")
+    implementation("com.google.guava:guava:${guavaVersion}")
+    implementation("org.redisson:redisson-spring-boot-starter:${redissonVersion}")
+    implementation("com.aliyun.oss:aliyun-sdk-oss:${ossVersion}")
+    implementation("com.github.penggle:kaptcha:${captchaVersion}")
+}

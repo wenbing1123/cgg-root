@@ -1,0 +1,7 @@
+
+dependencies {
+    implementation project(":cgg-framework")
+    implementation project(":cgg-service-baseconfig")
+    implementation project(":cgg-service-sms")
+    implementation("org.bitbucket.b_c:jose4j:0.7.8")
+}

@@ -1,0 +1,7 @@
+springdoc:
+  api-docs:
+    enabled: false
+logging:
+  config: classpath:logback-file.xml
+  level:
+    root: info

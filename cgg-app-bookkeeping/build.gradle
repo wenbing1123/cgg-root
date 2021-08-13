@@ -1,0 +1,7 @@
+bootJar.enabled = true
+
+dependencies {
+    implementation project(':cgg-framework')
+    implementation project(':cgg-service-user')
+}
+

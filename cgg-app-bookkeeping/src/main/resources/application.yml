@@ -1,0 +1,18 @@
+server:
+  port: 8087
+spring:
+  application:
+    name: cgg-bookkeeping
+  profiles:
+    active: dev
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    date-format: yyyy-MM-dd HH:mm:ss
+    locale: zh
+    time-zone: GMT+8
+    default-property-inclusion: NON_EMPTY
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_PROPERTIES: true
+jwt:
+  issuer: cgg
+  expired-seconds: 604800
