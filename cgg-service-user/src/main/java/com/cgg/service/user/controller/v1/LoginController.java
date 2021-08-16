@@ -19,7 +19,6 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -46,7 +45,7 @@ public class LoginController {
     @Resource
     private RedisManager redisManager;
 
-    @PostMapping("sms_verify_code")
+    @GetMapping("sms_verify_code")
     @Operation(tags = "发送短信验证码")
     public Mono<None> sendLoginVerifyCode(SendLoginVerifyCodePM pm) {
         return smsService

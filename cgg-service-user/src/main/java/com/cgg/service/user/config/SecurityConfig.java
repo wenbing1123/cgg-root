@@ -2,6 +2,8 @@ package com.cgg.service.user.config;
 
 import com.cgg.service.user.security.authentication.*;
 import com.cgg.service.user.security.authentication.jwt.JwtAuthenticationProvider;
+import com.cgg.service.user.security.authentication.miniprogram.MiniProgramAuthenticationProvider;
+import com.cgg.service.user.security.authentication.miniprogram.MiniProgramLoginAuthenticationWebFilter;
 import com.cgg.service.user.security.authentication.phone.PhoneAuthorizationProvider;
 import com.cgg.service.user.security.authentication.phone.PhoneLoginAuthenticationWebFilter;
 import com.cgg.service.user.security.authentication.username.UsernameAuthenticationProvider;
@@ -55,6 +57,7 @@ public class SecurityConfig {
                 .accessDeniedHandler(accessDeniedHandler())
                 .authenticationEntryPoint(serverAuthenticationEntryPoint())
                 .and().securityContextRepository(redisServerSecurityContextRepository())
+                .addFilterBefore(miniProgramLoginAuthenticationWebFilter(), SecurityWebFiltersOrder.FORM_LOGIN)
                 .addFilterBefore(wechatLoginAuthenticationWebFilter(), SecurityWebFiltersOrder.FORM_LOGIN)
                 .addFilterBefore(phoneLoginAuthenticationWebFilter(), SecurityWebFiltersOrder.FORM_LOGIN)
                 .addFilterBefore(usernameLoginAuthenticationWebFilter(), SecurityWebFiltersOrder.FORM_LOGIN)
@@ -75,6 +78,17 @@ public class SecurityConfig {
     }
 
     @Bean
+    AuthenticationWebFilter miniProgramLoginAuthenticationWebFilter() {
+        AuthenticationWebFilter filter = new MiniProgramLoginAuthenticationWebFilter(authenticationManager());
+        filter.setAuthenticationSuccessHandler(successHandler());
+        filter.setAuthenticationFailureHandler(failureHandler());
+        return filter;
+    }
+
+    @Bean
+    WechatAuthenticationProvider wechatAuthenticationProvider() { return new WechatAuthenticationProvider(); }
+
+    @Bean
     AuthenticationWebFilter wechatLoginAuthenticationWebFilter() {
         AuthenticationWebFilter filter = new WechatLoginAuthenticationWebFilter(authenticationManager());
         filter.setAuthenticationSuccessHandler(successHandler());
@@ -83,7 +97,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    WechatAuthenticationProvider wechatAuthenticationProvider() { return new WechatAuthenticationProvider(); }
+    MiniProgramAuthenticationProvider miniProgramAuthenticationProvider() { return new MiniProgramAuthenticationProvider(); }
 
     @Bean
     AuthenticationWebFilter phoneLoginAuthenticationWebFilter() {
