@@ -15,6 +15,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
     public static final String STANDARD_DATETIME = "yyyy-MM-dd HH:mm:ss";
     public static final String STANDARD_DATE = "yyyy-MM-dd";
     public static final String STANDARD_TIME = "HH:mm:ss";
+    public static final String NON_SEP_DATETIME = "yyyyMMddHHmmss";
 
 
     public static Date parse(String date) {
