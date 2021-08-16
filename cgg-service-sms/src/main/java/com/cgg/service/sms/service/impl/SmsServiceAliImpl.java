@@ -10,6 +10,7 @@ import com.aliyuncs.profile.IClientProfile;
 import com.cgg.framework.enums.YesNo;
 import com.cgg.framework.exception.*;
 import com.cgg.framework.redis.RedisManager;
+import com.cgg.framework.utils.DateUtils;
 import com.cgg.framework.utils.JacksonUtils;
 import com.cgg.service.baseconfig.service.ConfigService;
 import com.cgg.service.sms.config.properties.SmsProperties;
@@ -29,7 +30,9 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.Map;
 
@@ -67,14 +70,21 @@ public class SmsServiceAliImpl implements SmsService, InitializingBean, Disposab
     @SafeVarargs
     @Override
     public final Mono<Boolean> sendMessage(String phone, String tplCode, Map<String, Object>... params) {
-        return Mono.defer(() ->
-            smsLogRepository.countSameDayByPhoneAndTplCode(phone,tplCode)
+        String tplCountRedisKey = tplSmsSendCountKey(phone, tplCode);
+        String allCountRedisKey = allSmsSendCountKey(phone);
+        Mono<Integer> tplCount = redisManager.get(tplCountRedisKey)
+                .cast(Integer.class)
+                .defaultIfEmpty(0);
+        Mono<Integer> allCount = redisManager.get(allCountRedisKey)
+                .cast(Integer.class)
+                .defaultIfEmpty(0);
+        return Mono.defer(() -> tplCount
                     .zipWith(configService.getAsInteger(SmsConstants.CFG_NAME_SMS_SEND_TPL_DAILY_LIMIT, 5))
-                    .filter(x -> x.getT1().compareTo(x.getT2())>=0)
+                    .filter(x -> x.getT1().compareTo(x.getT2()) < 0)
                     .switchIfEmpty(Mono.error(new UnconfirmedRuleException("短信发送次数超过日上限")))
-                    .then(smsLogRepository.countSameDayByPhone(phone))
+                    .then(allCount)
                     .zipWith(configService.getAsInteger(SmsConstants.CFG_NAME_SMS_SEND_ALL_DAILY_LIMIT, 60))
-                    .filter(x -> x.getT1().compareTo(x.getT2())>=0)
+                    .filter(x -> x.getT1().compareTo(x.getT2()) < 0)
                     .switchIfEmpty(Mono.error(new UnconfirmedRuleException("短信发送次数超过日上限")))
                     .then(Mono.defer(() -> {
                         SmsLog smsLog = SmsLog.builder()
@@ -93,7 +103,10 @@ public class SmsServiceAliImpl implements SmsService, InitializingBean, Disposab
                         }
 
                         try {
-                            SendSmsResponse sendSmsResponse = client.getAcsResponse(request);
+                            // SendSmsResponse sendSmsResponse = client.getAcsResponse(request);
+                            SendSmsResponse sendSmsResponse = new SendSmsResponse();
+                            sendSmsResponse.setCode("OK");
+                            sendSmsResponse.setMessage("success");
                             if (log.isDebugEnabled()) {
                                 log.debug("sendSmsRequest: {}, sendSmsResponse: {}", JacksonUtils.writeValueAsString(request), JacksonUtils.writeValueAsString(sendSmsResponse));
                             }
@@ -103,17 +116,33 @@ public class SmsServiceAliImpl implements SmsService, InitializingBean, Disposab
                                 result = true;
                                 smsLog.setResultCode("0");
                             } else {
-                                smsLog.setResultCode("-d");
+                                smsLog.setResultCode("-1");
                                 smsLog.setResultMsg(JacksonUtils.writeValueAsString(sendSmsResponse));
                             }
                             smsLogRepository.save(smsLog);
                             return Mono.just(result);
-                        } catch (ClientException e) {
+                        } catch (Exception e) {
                             String msg = "服务调用失败";
                             log.error(msg, e);
                             throw new SvcFailException(msg);
                         }
                     }))
+                    .flatMap(b -> {
+                        if (BooleanUtils.isTrue(b)) {
+                            LocalDateTime expireTimeAt = LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(0, 0, 0));
+                            long expireTime = DateUtils.minus(expireTimeAt, LocalDateTime.now());
+                            return redisManager.exists(tplCountRedisKey)
+                                    .filter(BooleanUtils::isTrue)
+                                    .switchIfEmpty(redisManager.setEX(tplCountRedisKey, 1, expireTime))
+                                    .map(x -> redisManager.incr(tplCountRedisKey, 1))
+                                    .then(redisManager.exists(allCountRedisKey))
+                                    .filter(BooleanUtils::isTrue)
+                                    .switchIfEmpty(redisManager.setEX(allCountRedisKey, 1, expireTime))
+                                    .map(x -> redisManager.incr(allCountRedisKey, 1))
+                                    .thenReturn(true);
+                        }
+                        return Mono.just(false);
+                    })
         ).subscribeOn(Schedulers.boundedElastic());
     }
 
@@ -141,4 +170,12 @@ public class SmsServiceAliImpl implements SmsService, InitializingBean, Disposab
                 .flatMap(smsVerifyCode -> redisManager.del(redisKey).map(x -> x==1));
     }
 
+
+    private String tplSmsSendCountKey(String phone, String tplCode) {
+        return SmsConstants.REDIS_COLLECTION_TPL_SMS_SEND_COUNT + tplCode + ":" + phone;
+    }
+
+    private String allSmsSendCountKey(String phone) {
+        return SmsConstants.REDIS_COLLECTION_TPL_SMS_SEND_COUNT + phone;
+    }
 }

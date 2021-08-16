@@ -8,5 +8,7 @@ public interface SmsConstants {
     String CFG_NAME_SMS_SEND_TPL_DAILY_LIMIT = "sms_send_tpl_daily_limit";
 
     String REDIS_COLLECTION_SMS_VERIFY_CODE = "sms:verifyCode:";
+    String REDIS_COLLECTION_TPL_SMS_SEND_COUNT = "sms:tplSendCount:";
+    String REDIS_COLLECTION_ALL_SMS_SEND_COUNT = "sms:allSendCount:";
 
 }

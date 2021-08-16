@@ -1,15 +1,18 @@
 package com.cgg.framework.redis;
 
 import com.cgg.framework.exception.SysException;
+import com.cgg.framework.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RLockReactive;
 import org.redisson.api.RedissonReactiveClient;
 import org.springframework.data.domain.Range;
-import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.DefaultTypedTuple;
+import org.springframework.data.redis.core.ReactiveHashOperations;
+import org.springframework.data.redis.core.ReactiveRedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.core.script.RedisScript;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,6 +22,7 @@ import javax.annotation.Resource;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
@@ -36,6 +40,9 @@ public class RedisManagerImpl implements RedisManager {
     public Mono<Boolean> expire(String key, long expireTime) {
         checkArgument(expireTime > 0, "time must be ge zero");
         return redisTemplate.expire(key, Duration.ofSeconds(expireTime));
+    }
+    public Mono<Boolean> expireAt(String key, LocalDateTime time) {
+        return redisTemplate.expireAt(key, DateUtils.toInstant(time));
     }
 
     public Mono<Duration> getExpire(String key) {
@@ -56,7 +63,6 @@ public class RedisManagerImpl implements RedisManager {
         if (expireTime > 0) {
             return redisTemplate.opsForValue().set(key, value, Duration.ofSeconds(expireTime));
         }
-
         return set(key, value);
     }
 

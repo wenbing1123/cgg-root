@@ -2,6 +2,7 @@ package com.cgg.framework.redis;
 
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
 import java.util.function.Supplier;
 
 public interface RedisManager {
@@ -20,6 +21,10 @@ public interface RedisManager {
 
     //删除 key
     Mono<Long> del(String... keys);
+
+    //过期 key
+    Mono<Boolean> expire(String key, long expireTime);
+    Mono<Boolean> expireAt(String key, LocalDateTime time);
 
     // reactive distribute lock
     <T> Mono<T> lock(String lockKey, Supplier<Mono<T>> supplier); //阻塞获取锁

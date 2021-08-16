@@ -4,9 +4,7 @@ import com.cgg.framework.exception.DataInvalidException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -39,6 +37,22 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
 
     public static LocalTime parseLocalTime(String date) {
         return LocalTime.parse(date, DateTimeFormatter.ofPattern(STANDARD_TIME));
+    }
+
+    public static Instant toInstant(LocalDateTime time) {
+        return time.toInstant(ZoneOffset.ofHours(8));
+    }
+
+    public static Date toDate(LocalDateTime time) {
+        return Date.from(toInstant(time));
+    }
+
+    public static long toLong(LocalDateTime time) {
+        return toDate(time).getTime();
+    }
+
+    public static long minus(LocalDateTime time1, LocalDateTime time2) {
+        return toLong(time1) - toLong(time2);
     }
 
 }
