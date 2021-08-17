@@ -16,6 +16,8 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
     public static final String STANDARD_DATE = "yyyy-MM-dd";
     public static final String STANDARD_TIME = "HH:mm:ss";
     public static final String NON_SEP_DATETIME = "yyyyMMddHHmmss";
+    public static final String NON_SEP_DATE = "yyyyMMddHHmmss";
+    public static final String NON_SEP_TIME = "yyyyMMddHHmmss";
 
 
     public static Date parse(String date) {
@@ -50,6 +52,14 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
 
     public static long toLong(LocalDateTime time) {
         return toDate(time).getTime();
+    }
+
+    public static String format(LocalDateTime time, String format) {
+        return time.format(DateTimeFormatter.ofPattern(format));
+    }
+
+    public static String format(LocalDate time, String format) {
+        return time.format(DateTimeFormatter.ofPattern(format));
     }
 
     public static long minus(LocalDateTime time1, LocalDateTime time2) {

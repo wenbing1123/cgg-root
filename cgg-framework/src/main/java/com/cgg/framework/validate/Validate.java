@@ -1,6 +1,6 @@
 package com.cgg.framework.validate;
 
-public interface PMValidate {
+public interface Validate {
 
     void validate();
 

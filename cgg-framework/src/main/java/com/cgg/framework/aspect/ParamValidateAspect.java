@@ -1,6 +1,6 @@
 package com.cgg.framework.aspect;
 
-import com.cgg.framework.validate.PMValidate;
+import com.cgg.framework.validate.Validate;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -21,8 +21,8 @@ public class ParamValidateAspect {
   public Object around(ProceedingJoinPoint point) throws Throwable {
     Object[] args = point.getArgs();
     for (Object arg : args) {
-      if (arg instanceof PMValidate) {
-        ((PMValidate) arg).validate();
+      if (arg instanceof Validate) {
+        ((Validate) arg).validate();
       }
     }
     return point.proceed();

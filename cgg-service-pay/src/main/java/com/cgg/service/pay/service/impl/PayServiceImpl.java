@@ -1,6 +1,5 @@
 package com.cgg.service.pay.service.impl;
 
-import com.cgg.service.pay.dao.entity.Payment;
 import com.cgg.service.pay.dao.repository.PaymentLogRepository;
 import com.cgg.service.pay.dao.repository.PaymentRepository;
 import com.cgg.service.pay.gate.GateService;
@@ -18,6 +17,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+import reactor.util.retry.Retry;
 
 import javax.annotation.Resource;
 
@@ -28,16 +29,12 @@ public class PayServiceImpl implements PayService, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
     @Resource
-    private PaymentRepository paymentRepository;
-    @Resource
-    private PaymentLogRepository paymentLogRepository;
-    @Resource
-    private PayServiceTransactional payServiceTransactional;
+    private PayServiceTran payServiceTran;
 
     @Override
-    public Mono<PrePayResult> prePay(PrePayCmd cmd){
+    public Mono<PrePayResult> prePay(PrePayCmd cmd) {
         GateService gateService = getGateService(cmd.getPayGate());
-        return payServiceTransactional
+        return payServiceTran
                 .createOrderForPrePay(cmd)
                 .flatMap(payment -> gateService.prePay(cmd, payment));
     }
@@ -45,7 +42,7 @@ public class PayServiceImpl implements PayService, ApplicationContextAware {
     @Override
     public Mono<PayResult> pay(PayCmd cmd) {
         GateService gateService = getGateService(cmd.getPayGate());
-        return payServiceTransactional
+        return payServiceTran
                 .updateOrderForPay(cmd)
                 .flatMap(payment -> gateService.pay(cmd, payment));
     }
@@ -54,8 +51,12 @@ public class PayServiceImpl implements PayService, ApplicationContextAware {
     public Mono<CallbackResult> callback(CallbackCmd cmd) {
         GateService gateService = getGateService(cmd.getPayGate());
         return gateService.callback(cmd)
-                .flatMap(result -> payServiceTransactional
+                .flatMap(result -> payServiceTran
                         .updateOrderForCallback(result)
+                        .doOnNext(payment -> payServiceTran
+                                .updateOrderForNotify(payment)
+                                .subscribeOn(Schedulers.boundedElastic())
+                                .subscribe())
                         .thenReturn(result));
     }
 

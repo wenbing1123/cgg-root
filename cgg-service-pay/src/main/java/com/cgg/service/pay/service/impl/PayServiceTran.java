@@ -3,17 +3,21 @@ package com.cgg.service.pay.service.impl;
 import com.cgg.framework.enums.YesNo;
 import com.cgg.framework.exception.BizFailException;
 import com.cgg.framework.exception.DataNotFoundException;
+import com.cgg.framework.utils.IdUtils;
 import com.cgg.framework.utils.JacksonUtils;
+import com.cgg.service.order.service.RechargeService;
+import com.cgg.service.order.service.dto.command.RechargePayNotifyCommand;
+import com.cgg.service.pay.constants.PayConstants;
 import com.cgg.service.pay.dao.entity.Payment;
 import com.cgg.service.pay.dao.entity.PaymentLog;
 import com.cgg.service.pay.dao.repository.PaymentLogRepository;
 import com.cgg.service.pay.dao.repository.PaymentRepository;
 import com.cgg.service.pay.enums.PayStatus;
-import com.cgg.service.pay.service.dto.command.CallbackCmd;
 import com.cgg.service.pay.service.dto.command.PayCmd;
 import com.cgg.service.pay.service.dto.command.PrePayCmd;
 import com.cgg.service.pay.service.dto.result.CallbackResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,9 +26,9 @@ import reactor.core.publisher.Mono;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
-@Service("payServiceTransactional")
+@Service("payServiceTran")
 @Slf4j
-public class PayServiceTransactional {
+public class PayServiceTran {
 
     @Resource
     private PaymentRepository paymentRepository;
@@ -48,7 +52,7 @@ public class PayServiceTransactional {
                         .orderAmount(cmd.getOrderAmount())
                         .payGate(cmd.getPayGate())
                         .subGate(cmd.getSubGate())
-                        .payOrderSn("") // 支付订单号
+                        .payOrderSn(IdUtils.bizNo(PayConstants.ORDER_NO_PREFIX)) // 支付订单号
                         .orderStatus(PayStatus.UNPAID.getValue()) // 未支付
                         .notifyFlag(YesNo.NO.getValue())
                         .build())
@@ -122,5 +126,19 @@ public class PayServiceTransactional {
                                 .build())
                         .thenReturn(payment));
     }
+
+    @Transactional
+    public Mono<Boolean> updateOrderForNotify(Payment payment) {
+        return rechargeService
+                .payNotify(RechargePayNotifyCommand
+                        .builder()
+                        .orderNo(payment.getSiteOrderSn())
+                        .build())
+                .filter(BooleanUtils::isTrue)
+                .doOnNext(b -> paymentRepository.updateNotify(payment.getId()));
+    }
+
+    @Resource
+    private RechargeService rechargeService;
 
 }

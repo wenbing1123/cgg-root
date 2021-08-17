@@ -16,8 +16,11 @@ import java.time.LocalDateTime;
 @Table("t_payment_log")
 public class PaymentLog {
 
-    @Id private Long id;
-    @Column("gmt_created") @CreatedDate private LocalDateTime gmtCreated;
+    @Id
+    private Long id;
+    @Column("gmt_created")
+    @CreatedDate
+    private LocalDateTime gmtCreated;
     @Column("order_id") private Long orderId;
     @Column("order_status") private Integer orderStatus;
     @Column("order_attach") private String orderAttach;

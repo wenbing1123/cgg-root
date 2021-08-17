@@ -2,15 +2,15 @@ package com.cgg.service.order.enums;
 
 public enum OrderStatus {
 
-    WAITING_PAY(0, "待支付"),
+    UNPAID(0, "未支付"),
     CANCELED(1, "已取消"),
     EXPIRED(2, "已过期"),
-    WAITING_CHECK(3, "待审核"),
-    WAITING_SHIP(4, "待发货"),
-    WAITING_RECEIVE(5, "待收货"),
+    PAID(3, "已支付"),
+    CHECKED(4, "已审核"),
+    SHIPPED(5, "已发货"),
     COMPLETED(6, "已完成"),
-    REFUND_PART(7, "已部分退货"),
-    REFUND(8, "已全部退货");
+    EVALUATED(7, "已评价"),
+    REFUND(8, "已退货");
 
     int value;
     String description;
@@ -28,8 +28,8 @@ public enum OrderStatus {
         return this.description;
     }
 
-    public static boolean isWaitingPay(Integer value) {
-        return value != null && value.equals(WAITING_PAY.value);
+    public static boolean isUnPaid(Integer value) {
+        return value != null && value.equals(UNPAID.value);
     }
 
     public static boolean isCanceled(Integer value) {
@@ -40,24 +40,24 @@ public enum OrderStatus {
         return value != null && value.equals(EXPIRED.value);
     }
 
-    public static boolean isWaitingCheck(Integer value) {
-        return value != null && value.equals(WAITING_CHECK.value);
+    public static boolean isPaid(Integer value) {
+        return value != null && value.equals(PAID.value);
     }
 
-    public static boolean isWaitingShip(Integer value) {
-        return value != null && value.equals(WAITING_SHIP.value);
+    public static boolean isChecked(Integer value) {
+        return value != null && value.equals(CHECKED.value);
     }
 
-    public static boolean isWaitingReceive(Integer value) {
-        return value != null && value.equals(WAITING_RECEIVE.value);
+    public static boolean isShipped(Integer value) {
+        return value != null && value.equals(SHIPPED.value);
     }
 
     public static boolean isCompleted(Integer value) {
         return value != null && value.equals(COMPLETED.value);
     }
 
-    public static boolean isRefundPart(Integer value) {
-        return value != null && value.equals(REFUND_PART.value);
+    public static boolean isEvaluated(Integer value) {
+        return value != null && value.equals(EVALUATED.value);
     }
 
     public static boolean isRefund(Integer value) {

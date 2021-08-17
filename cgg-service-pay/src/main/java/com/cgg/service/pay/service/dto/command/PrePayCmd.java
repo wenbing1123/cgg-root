@@ -1,6 +1,8 @@
 package com.cgg.service.pay.service.dto.command;
 
 import com.cgg.framework.dto.request.Command;
+import com.cgg.framework.ensure.Ensure;
+import com.cgg.framework.validate.Validate;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +15,7 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
-public class PrePayCmd extends Command {
+public class PrePayCmd extends Command implements Validate {
 
     private String storeName;
     private String siteName;
@@ -31,5 +33,17 @@ public class PrePayCmd extends Command {
     private String payGate;
     private String subGate;
     @Singular("extend") private Map<String, String> extend;
+
+    @Override
+    public void validate() {
+        Ensure.paramNotBlank(payGate, "网关为空");
+        Ensure.paramNotBlank(storeName, "商户名为空");
+        Ensure.paramNotBlank(siteName, "产品名为空");
+        Ensure.paramNotNull(siteOrderDate, "产品订单号为空");
+        Ensure.paramNotBlank(storeName, "商户名为空");
+        Ensure.paramNotNull(orderAmount, "支付金额为空");
+        Ensure.param(orderAmount.compareTo(BigDecimal.ZERO)>=0, "支付金额不能低于1分钱");
+        Ensure.paramNotBlank(goodsName, "商品名为空");
+    }
 
 }

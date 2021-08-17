@@ -1,5 +1,6 @@
 
 dependencies {
     implementation project(":cgg-framework")
+    implementation project(":cgg-service-order-client")
     implementation("com.github.binarywang:wx-java-pay-spring-boot-starter:4.1.6.B")
 }
