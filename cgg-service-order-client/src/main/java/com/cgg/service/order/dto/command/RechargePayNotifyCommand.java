@@ -1,4 +1,4 @@
-package com.cgg.service.order.service.dto.command;
+package com.cgg.service.order.dto.command;
 
 import com.cgg.framework.dto.request.Command;
 import com.cgg.framework.ensure.Ensure;
@@ -10,14 +10,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
-public class RechargePrePayCommand extends Command implements Validate {
+public class RechargePayNotifyCommand extends Command implements Validate {
 
-    private String orderNo; //充值单号
-    private String payGate; //支付网关
+    private String orderNo; //订单号
 
     @Override
     public void validate() {
         Ensure.paramNotBlank(orderNo, "订单号为空");
-        Ensure.paramNotBlank(payGate, "支付网关为空");
     }
 }

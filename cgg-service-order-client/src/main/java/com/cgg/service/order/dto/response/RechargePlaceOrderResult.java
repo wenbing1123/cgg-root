@@ -1,4 +1,4 @@
-package com.cgg.service.order.service.dto.response;
+package com.cgg.service.order.dto.response;
 
 import com.cgg.framework.dto.response.ResponseData;
 import lombok.Builder;

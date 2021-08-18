@@ -1,6 +1,6 @@
 package com.cgg.service.order.controller.v1;
 
-import com.cgg.service.order.service.PurchaseService;
+import com.cgg.service.order.api.PurchaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.DeleteMapping;

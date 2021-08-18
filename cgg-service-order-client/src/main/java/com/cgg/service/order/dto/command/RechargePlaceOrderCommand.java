@@ -1,4 +1,4 @@
-package com.cgg.service.order.service.dto.command;
+package com.cgg.service.order.dto.command;
 
 import com.cgg.framework.dto.request.Command;
 import com.cgg.framework.ensure.Ensure;

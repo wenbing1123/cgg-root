@@ -1,4 +1,4 @@
-package com.cgg.service.order.service.impl;
+package com.cgg.service.order.service;
 
 import com.cgg.framework.exception.BizFailException;
 import com.cgg.framework.exception.DataNotFoundException;
@@ -8,12 +8,12 @@ import com.cgg.service.order.constants.OrderConstants;
 import com.cgg.service.order.dao.entity.RechargeOrder;
 import com.cgg.service.order.dao.repository.RechargeOrderRepository;
 import com.cgg.service.order.enums.RechargeStatus;
-import com.cgg.service.order.service.RechargeService;
-import com.cgg.service.order.service.dto.command.RechargePayNotifyCommand;
-import com.cgg.service.order.service.dto.command.RechargePlaceOrderCommand;
-import com.cgg.service.order.service.dto.command.RechargePrePayCommand;
-import com.cgg.service.order.service.dto.response.RechargePlaceOrderResult;
-import com.cgg.service.order.service.dto.response.RechargePrePayResult;
+import com.cgg.service.order.api.RechargeService;
+import com.cgg.service.order.dto.command.RechargePayNotifyCommand;
+import com.cgg.service.order.dto.command.RechargePlaceOrderCommand;
+import com.cgg.service.order.dto.command.RechargePrePayCommand;
+import com.cgg.service.order.dto.response.RechargePlaceOrderResult;
+import com.cgg.service.order.dto.response.RechargePrePayResult;
 import com.cgg.service.pay.service.PayService;
 import com.cgg.service.pay.service.dto.command.PrePayCmd;
 import lombok.extern.slf4j.Slf4j;

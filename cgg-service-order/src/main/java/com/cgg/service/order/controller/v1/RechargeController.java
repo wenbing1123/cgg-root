@@ -1,10 +1,10 @@
 package com.cgg.service.order.controller.v1;
 
-import com.cgg.service.order.service.RechargeService;
-import com.cgg.service.order.service.dto.command.RechargePlaceOrderCommand;
-import com.cgg.service.order.service.dto.command.RechargePrePayCommand;
-import com.cgg.service.order.service.dto.response.RechargePlaceOrderResult;
-import com.cgg.service.order.service.dto.response.RechargePrePayResult;
+import com.cgg.service.order.api.RechargeService;
+import com.cgg.service.order.dto.command.RechargePlaceOrderCommand;
+import com.cgg.service.order.dto.command.RechargePrePayCommand;
+import com.cgg.service.order.dto.response.RechargePlaceOrderResult;
+import com.cgg.service.order.dto.response.RechargePrePayResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
