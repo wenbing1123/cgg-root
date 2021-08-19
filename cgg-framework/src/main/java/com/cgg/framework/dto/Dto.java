@@ -1,11 +1,8 @@
 package com.cgg.framework.dto;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.cgg.framework.converter.Converter;
 
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-public abstract class Dto implements Serializable {
+public abstract class Dto implements Serializable, Converter {
 }

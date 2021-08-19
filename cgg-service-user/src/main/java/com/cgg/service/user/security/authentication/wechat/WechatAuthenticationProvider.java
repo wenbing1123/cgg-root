@@ -1,17 +1,16 @@
 package com.cgg.service.user.security.authentication.wechat;
 
 import com.cgg.framework.config.properties.WechatProperties;
+import com.cgg.service.user.api.UserService;
 import com.cgg.service.user.dao.entity.UserWechat;
+import com.cgg.service.user.dto.command.UserWechatSaveCommand;
 import com.cgg.service.user.security.SecurityUser;
 import com.cgg.service.user.security.authentication.AuthenticationProvider;
-import com.cgg.service.user.service.UserService;
-import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 
 public class WechatAuthenticationProvider implements AuthenticationProvider {
 
@@ -59,7 +58,7 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
                     // TODO
                     return userService
                             .findByOpenId(uw.getOpenId())
-                            .switchIfEmpty(userService.saveWechat(uw))
+                            .switchIfEmpty(userService.saveWechat(uw.covt(UserWechatSaveCommand.class)))
                             .map(x -> new WechatAuthorizationToken(SecurityUser
                                     .builder()
                                     .userId(Long.toString(x.getUserId()))

@@ -1,7 +1,7 @@
 package com.cgg.service.pay.controller.v1;
 
-import com.cgg.service.pay.service.PayService;
-import com.cgg.service.pay.service.dto.command.CallbackCmd;
+import com.cgg.service.pay.api.PayService;
+import com.cgg.service.pay.dto.command.CallbackCmd;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;

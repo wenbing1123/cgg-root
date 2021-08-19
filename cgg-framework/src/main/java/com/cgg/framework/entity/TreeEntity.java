@@ -1,15 +1,13 @@
 package com.cgg.framework.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Data
-@SuperBuilder
+@Getter
+@Setter
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class TreeEntity extends BaseEntity {
+@AllArgsConstructor
+public abstract class TreeEntity extends BaseEntity {
 
     private String name;
     private Long pid;

@@ -1,24 +1,21 @@
 package com.cgg.framework.entity;
 
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Column;
 
 import java.time.LocalDateTime;
 
-@Data
-@SuperBuilder
+@Getter
+@Setter
 @NoArgsConstructor
-public class BaseEntity {
-
-    @Id
-    private Long id;
+@AllArgsConstructor
+@SuperBuilder
+public class BaseEntity extends Entity {
 
     @CreatedDate
     @Column("gmt_create")

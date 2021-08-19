@@ -1,11 +1,11 @@
 package com.cgg.service.user.security.authentication.phone;
 
-import com.cgg.framework.enums.PredefinedCode;
-import com.cgg.framework.exception.BizFailException;
-import com.cgg.service.baseconfig.service.ConfigService;
-import com.cgg.service.sms.service.SmsService;
+import com.cgg.service.account.api.SmsService;
+import com.cgg.service.baseconfig.api.ConfigService;
+import com.cgg.service.user.api.UserService;
 import com.cgg.service.user.constants.UserConstants;
-import com.cgg.service.user.dao.entity.User;
+import com.cgg.service.user.dto.command.UserSaveCommand;
+import com.cgg.service.user.dto.response.UserResult;
 import com.cgg.service.user.enums.AuthType;
 import com.cgg.service.user.enums.UserStatus;
 import com.cgg.service.user.exception.BadCodeException;
@@ -15,7 +15,6 @@ import com.cgg.service.user.exception.UsernameNotFoundException;
 import com.cgg.service.user.exception.base.AuthError;
 import com.cgg.service.user.security.SecurityUser;
 import com.cgg.service.user.security.authentication.AuthenticationProvider;
-import com.cgg.service.user.service.UserService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.security.core.Authentication;
 import reactor.core.publisher.Mono;
@@ -52,14 +51,14 @@ public class PhoneAuthorizationProvider implements AuthenticationProvider {
                 .map(this::createToken);
     }
 
-    private Mono<User> retrieveUser(String phone) {
+    private Mono<UserResult> retrieveUser(String phone) {
         return userService
                 .findByPhone(phone)
                 .switchIfEmpty(Mono.error(() -> new UsernameNotFoundException("该手机号未注册", AuthError.of(AuthType.PHONE, phone))))
                 .doOnNext(this::checkUser);
     }
 
-    private void checkUser(User user) {
+    private void checkUser(UserResult user) {
         if (UserStatus.isLocked(user.getStatus())) {
             throw new LockedException(AuthError.of(AuthType.PHONE, user.getUsername()));
         }
@@ -68,14 +67,14 @@ public class PhoneAuthorizationProvider implements AuthenticationProvider {
         }
     }
 
-    private Mono<User> registerUser(String phone) {
-       return userService.save(User
+    private Mono<UserResult> registerUser(String phone) {
+       return userService.save(UserSaveCommand
                .builder()
                .phone(phone)
                .build());
     }
 
-    private PhoneAuthorizationToken createToken(User user) {
+    private PhoneAuthorizationToken createToken(UserResult user) {
         return new PhoneAuthorizationToken(SecurityUser
                 .builder()
                 .userId(Long.toString(user.getId()))

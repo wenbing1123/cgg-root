@@ -3,16 +3,20 @@ package com.cgg.service.user.security.authentication.username;
 import com.cgg.framework.exception.ArgumentException;
 import com.cgg.framework.exception.BizFailException;
 import com.cgg.framework.redis.RedisManager;
-import com.cgg.service.baseconfig.service.ConfigService;
+import com.cgg.service.baseconfig.api.ConfigService;
+import com.cgg.service.user.api.UserService;
 import com.cgg.service.user.constants.UserConstants;
-import com.cgg.service.user.dao.entity.User;
+import com.cgg.service.user.dto.command.UserSaveCommand;
+import com.cgg.service.user.dto.response.UserResult;
 import com.cgg.service.user.enums.AuthType;
 import com.cgg.service.user.enums.UserStatus;
-import com.cgg.service.user.exception.*;
+import com.cgg.service.user.exception.BadCredentialsException;
+import com.cgg.service.user.exception.DisabledException;
+import com.cgg.service.user.exception.LockedException;
+import com.cgg.service.user.exception.UsernameNotFoundException;
 import com.cgg.service.user.exception.base.AuthError;
 import com.cgg.service.user.security.SecurityUser;
 import com.cgg.service.user.security.authentication.AuthenticationProvider;
-import com.cgg.service.user.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -79,9 +83,9 @@ public class UsernameAuthenticationProvider implements AuthenticationProvider {
                                     .incWindowCount(UserConstants.REDIS_COLLECTION_LOGIN_ERROR_COUNT + token.getUsername(), t.getT1(), t.getT2())
                                     .map(errorCount -> {
                                         if (errorCount >= t.getT2()) {
-                                            userService.update(User
+                                            userService.update(UserSaveCommand
                                                                     .builder()
-                                                                    .id(user.getId())
+                                                                    .userId(user.getId())
                                                                     .status(user.getStatus())
                                                                     .build())
                                                         .thenReturn(errorCount);
@@ -102,7 +106,7 @@ public class UsernameAuthenticationProvider implements AuthenticationProvider {
                         .build()));
     }
 
-    private Mono<User> retrieveUser(String username) {
+    private Mono<UserResult> retrieveUser(String username) {
         return userService
                 .findByUsername(username)
                 .switchIfEmpty(userService.findByPhone(username))
@@ -111,7 +115,7 @@ public class UsernameAuthenticationProvider implements AuthenticationProvider {
                 .doOnNext(this::checkUser);
     }
 
-    private void checkUser(User user) {
+    private void checkUser(UserResult user) {
         if (UserStatus.isLocked(user.getStatus())) {
             throw new LockedException(AuthError.of(AuthType.USERNAME, user.getUsername()));
         }

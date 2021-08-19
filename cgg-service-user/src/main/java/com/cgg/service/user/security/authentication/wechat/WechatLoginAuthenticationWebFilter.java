@@ -6,7 +6,7 @@ import org.springframework.security.web.server.util.matcher.PathPatternParserSer
 
 public class WechatLoginAuthenticationWebFilter extends AuthenticationWebFilter {
 
-    public static final String DEFAULT_LOGIN_URL = "/login/wechat";
+    public static final String DEFAULT_LOGIN_URL = "v1/login/wechat";
 
     public WechatLoginAuthenticationWebFilter(ReactiveAuthenticationManager authenticationManager) {
         super(authenticationManager);

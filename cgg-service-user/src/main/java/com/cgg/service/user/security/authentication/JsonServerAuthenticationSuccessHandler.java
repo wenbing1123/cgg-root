@@ -2,15 +2,14 @@ package com.cgg.service.user.security.authentication;
 
 import com.cgg.framework.dto.response.Response;
 import com.cgg.framework.ensure.Ensure;
-import com.cgg.framework.enums.PredefinedCode;
 import com.cgg.framework.exception.SysException;
 import com.cgg.framework.utils.JacksonUtils;
-import com.cgg.service.user.dao.entity.UserLoginLog;
+import com.cgg.service.user.api.UserService;
+import com.cgg.service.user.dto.command.LoginLogSaveCommand;
 import com.cgg.service.user.security.SecurityUser;
 import com.cgg.service.user.security.authentication.jwt.JwtManager;
 import com.cgg.service.user.security.authentication.phone.PhoneAuthorizationToken;
 import com.cgg.service.user.security.authentication.wechat.WechatAuthorizationToken;
-import com.cgg.service.user.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
@@ -39,7 +38,7 @@ public class JsonServerAuthenticationSuccessHandler implements ServerAuthenticat
         Ensure.that(authentication.isAuthenticated(), new SysException("未认证"));
         SecurityUser user = ((BaseAuthenticationToken)authentication).getUser();
         DataBuffer buffer = response.bufferFactory().wrap(JacksonUtils.writeValueAsString(Response.success(jwtManager.createToken(user))).getBytes(StandardCharsets.UTF_8));
-        return response.writeWith(userService.saveLoginLog(UserLoginLog
+        return response.writeWith(userService.saveLoginLog(LoginLogSaveCommand
                 .builder()
                 .principal(user.getUserId())
                 .resultCode("0")

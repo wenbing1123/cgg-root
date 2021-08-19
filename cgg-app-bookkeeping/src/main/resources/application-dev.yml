@@ -25,7 +25,26 @@ wechat:
   login:
     app-id: wxcc3ca96632923886
     app-secret: 2ca38822d5180126b7d9738bb64ba2cb
-    callback-url: https://api.zhaopen.top/callback
+    callback-url: https://api.zhaopen.top/api/v1/login/wechat
+  pay:
+    app-id: wxac6c92901515d15b
+    mch-id: 1490345762
+    mch-key: YiXingShiDingShuZhenSunYiNanZiSh
+    notify-url: https://api.zhaopen.top/api/v1/payment/callback
+wx:
+  miniapp:
+    appid: wxac6c92901515d15b
+    secret: bb4dac6a7b309e0c35a0bf4957356040
+    token:
+    aesKey:
+    msgDataFormat: JSON
+  pay:
+    appId: wxac6c92901515d15b
+    mchId: 1490345762
+    mchKey: YiXingShiDingShuZhenSunYiNanZiSh
+    subAppId:
+    subMchId:
+    keyPath:
 spring:
   r2dbc:
     url: r2dbcs:mysql://47.117.124.50:3306/cgg-bookkeeping?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8

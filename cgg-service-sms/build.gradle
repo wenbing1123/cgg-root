@@ -1,7 +1,8 @@
 
 dependencies {
     implementation project(":cgg-framework")
-    implementation project(":cgg-service-baseconfig")
+    implementation project(":cgg-service-sms-client")
+    implementation project(":cgg-service-baseconfig-client")
     implementation("com.aliyun:aliyun-java-sdk-core:4.5.25")
     implementation("com.aliyun:aliyun-java-sdk-dysmsapi:2.1.0")
 }

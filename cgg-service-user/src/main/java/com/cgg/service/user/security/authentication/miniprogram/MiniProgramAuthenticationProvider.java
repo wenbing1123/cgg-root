@@ -3,20 +3,17 @@ package com.cgg.service.user.security.authentication.miniprogram;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import com.cgg.framework.config.properties.WechatProperties;
 import com.cgg.framework.exception.SysException;
+import com.cgg.service.user.api.UserService;
 import com.cgg.service.user.dao.entity.UserWechat;
+import com.cgg.service.user.dto.command.UserWechatSaveCommand;
 import com.cgg.service.user.security.SecurityUser;
 import com.cgg.service.user.security.authentication.AuthenticationProvider;
 import com.cgg.service.user.security.authentication.wechat.WechatAuthorizationToken;
-import com.cgg.service.user.security.authentication.wechat.WechatToken;
-import com.cgg.service.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuple3;
 
 import javax.annotation.Resource;
 
@@ -66,7 +63,7 @@ public class MiniProgramAuthenticationProvider implements AuthenticationProvider
                     // TODO
                     return userService
                             .findByOpenId(uw.getOpenId())
-                            .switchIfEmpty(userService.saveWechat(uw))
+                            .switchIfEmpty(userService.saveWechat(uw.covt(UserWechatSaveCommand.class)))
                             .map(x -> new WechatAuthorizationToken(SecurityUser
                                     .builder()
                                     .userId(Long.toString(x.getUserId()))

@@ -2,11 +2,10 @@ package com.cgg.service.baseconfig.controller.v1;
 
 import com.cgg.framework.dto.response.None;
 import com.cgg.framework.exception.BizFailException;
-import com.cgg.service.baseconfig.service.ConfigService;
+import com.cgg.service.baseconfig.api.ConfigService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;

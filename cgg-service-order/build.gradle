@@ -1,11 +1,11 @@
 
 dependencies {
     implementation project(":cgg-framework")
+    implementation project(":cgg-service-account-client")
     implementation project(":cgg-service-order-client")
-    implementation project(":cgg-service-baseconfig")
-    implementation project(":cgg-service-sms")
-    implementation project(":cgg-service-account")
-    implementation project(":cgg-service-goods")
-    implementation project(":cgg-service-pay")
-    implementation project(":cgg-service-express")
+    implementation project(":cgg-service-baseconfig-client")
+    implementation project(":cgg-service-sms-client")
+    implementation project(":cgg-service-goods-client")
+    implementation project(":cgg-service-pay-client")
+    implementation project(":cgg-service-express-client")
 }

@@ -7,7 +7,7 @@ import com.cgg.framework.exception.BizFailException;
 import com.cgg.framework.exception.SysException;
 import com.cgg.framework.redis.RedisManager;
 import com.cgg.framework.utils.IdUtils;
-import com.cgg.service.sms.service.SmsService;
+import com.cgg.service.account.api.SmsService;
 import com.cgg.service.user.constants.UserConstants;
 import com.cgg.service.user.controller.v1.parammodel.SendLoginVerifyCodePM;
 import com.cgg.service.user.controller.v1.viewmodel.GetCaptchaCodeVM;
@@ -31,7 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("login")
+@RequestMapping("v1/login")
 @Tag(name = "登录服务")
 @Slf4j
 public class LoginController {

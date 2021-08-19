@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("v1/user")
 @Tag(name = "用户服务")
 public class UserController {
 
