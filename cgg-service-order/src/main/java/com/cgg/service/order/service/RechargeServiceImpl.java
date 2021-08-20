@@ -8,7 +8,7 @@ import com.cgg.service.order.api.RechargeService;
 import com.cgg.service.order.constants.OrderConstants;
 import com.cgg.service.order.dao.entity.RechargeOrder;
 import com.cgg.service.order.dao.repository.RechargeOrderRepository;
-import com.cgg.service.order.dto.command.RechargePayNotifyCommand;
+import com.cgg.service.order.dto.command.PayNotifyCommand;
 import com.cgg.service.order.dto.command.RechargePlaceOrderCommand;
 import com.cgg.service.order.dto.command.RechargePrePayCommand;
 import com.cgg.service.order.dto.response.RechargePlaceOrderResult;
@@ -79,7 +79,7 @@ public class RechargeServiceImpl implements RechargeService {
 
     @Override
     @Transactional
-    public Mono<Boolean> payNotify(RechargePayNotifyCommand cmd) {
+    public Mono<Boolean> payNotify(PayNotifyCommand cmd) {
         return rechargeOrderRepository
                 .findOne(Example.of(RechargeOrder
                         .builder()

@@ -5,8 +5,10 @@ import com.cgg.framework.exception.BizFailException;
 import com.cgg.framework.exception.DataNotFoundException;
 import com.cgg.framework.utils.IdUtils;
 import com.cgg.framework.utils.JacksonUtils;
+import com.cgg.service.order.api.OrderService;
 import com.cgg.service.order.api.RechargeService;
-import com.cgg.service.order.dto.command.RechargePayNotifyCommand;
+import com.cgg.service.order.dto.command.PayNotifyCommand;
+import com.cgg.service.order.factory.OrderServiceFactory;
 import com.cgg.service.pay.constants.PayConstants;
 import com.cgg.service.pay.dao.entity.Payment;
 import com.cgg.service.pay.dao.entity.PaymentLog;
@@ -129,8 +131,9 @@ public class PayServiceTran {
 
     @Transactional
     public Mono<Boolean> updateOrderForNotify(Payment payment) {
-        return rechargeService
-                .payNotify(RechargePayNotifyCommand
+        OrderService orderService = orderServiceFactory.getOrderService(payment.getSiteName());
+        return orderService
+                .payNotify(PayNotifyCommand
                         .builder()
                         .orderNo(payment.getSiteOrderSn())
                         .build())
@@ -139,6 +142,6 @@ public class PayServiceTran {
     }
 
     @Resource
-    private RechargeService rechargeService;
+    private OrderServiceFactory orderServiceFactory;
 
 }

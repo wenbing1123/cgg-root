@@ -1,4 +1,4 @@
 package com.cgg.service.order.api;
 
-public interface PurchaseService {
+public interface PurchaseService extends OrderService{
 }

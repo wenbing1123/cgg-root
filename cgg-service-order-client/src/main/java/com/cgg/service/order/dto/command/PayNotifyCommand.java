@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
-public class RechargePayNotifyCommand extends Command implements Validate {
+public class PayNotifyCommand extends Command implements Validate {
 
     private String orderNo; //订单号
 
