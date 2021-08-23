@@ -1,0 +1,5 @@
+
+dependencies {
+    implementation project(":cgg-framework")
+    implementation project(":cgg-service-member-client")
+}
