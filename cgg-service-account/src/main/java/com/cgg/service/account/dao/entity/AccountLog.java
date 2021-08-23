@@ -1,13 +1,11 @@
 package com.cgg.service.account.dao.entity;
 
-import com.cgg.framework.entity.Entity;
-import lombok.Builder;
+import com.cgg.framework.dao.entity.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 

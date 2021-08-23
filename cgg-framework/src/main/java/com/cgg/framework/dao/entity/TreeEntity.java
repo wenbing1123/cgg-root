@@ -1,7 +1,6 @@
-package com.cgg.framework.entity;
+package com.cgg.framework.dao.entity;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter

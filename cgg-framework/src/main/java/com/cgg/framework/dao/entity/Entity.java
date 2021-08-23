@@ -1,4 +1,4 @@
-package com.cgg.framework.entity;
+package com.cgg.framework.dao.entity;
 
 import com.cgg.framework.converter.Converter;
 import lombok.Getter;

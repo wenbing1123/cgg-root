@@ -1,4 +1,4 @@
-package com.cgg.service.market.dao.entity;
+package com.cgg.service.member.dao.entity;
 
 import com.cgg.framework.dao.entity.BaseEntity;
 import lombok.Data;
@@ -11,6 +11,6 @@ import org.springframework.data.relational.core.mapping.Table;
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Table("t_activity")
-public class Activity extends BaseEntity {
+@Table("t_member_group")
+public class MemberGroup extends BaseEntity {
 }
