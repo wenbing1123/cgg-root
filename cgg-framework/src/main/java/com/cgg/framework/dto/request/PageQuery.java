@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Schema(name = "分页查询参数")
-public class PageQuery extends Query {
+public abstract class PageQuery extends Query {
 
     @Schema(description = "页码")
     private Integer pageNo;

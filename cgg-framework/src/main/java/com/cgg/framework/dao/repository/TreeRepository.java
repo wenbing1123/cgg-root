@@ -1,7 +1,7 @@
 package com.cgg.framework.dao.repository;
 
 import com.cgg.framework.dao.entity.TreeEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.r2dbc.repository.R2dbcRepository;
 
-public interface TreeRepository<T extends TreeEntity> extends CrudRepository<T, Long> {
+public interface TreeRepository<T extends TreeEntity> extends R2dbcRepository<T, Long> {
 }

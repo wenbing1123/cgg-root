@@ -1,5 +1,5 @@
 
 dependencies {
     implementation project(":cgg-framework")
-    implementation project(":cgg-service-content-client")
+    implementation project(":cgg-service-goods-client")
 }

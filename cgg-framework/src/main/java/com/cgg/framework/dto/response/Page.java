@@ -18,7 +18,7 @@ public class Page<T> extends ResponseData implements Serializable {
         this.data = data;
     }
 
-    public <E> Page<E> of(Long totalCount, Collection<E> content) {
+    public static <E> Page<E> of(Long totalCount, Collection<E> content) {
         return new Page<>(totalCount, content);
     }
 
