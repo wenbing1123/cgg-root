@@ -1,6 +1,6 @@
 package com.cgg.service.member.dao.entity;
 
-import com.cgg.framework.dao.entity.BaseEntity;
+import com.cgg.framework.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
